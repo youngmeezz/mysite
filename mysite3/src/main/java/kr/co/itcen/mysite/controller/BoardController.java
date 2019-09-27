@@ -37,7 +37,7 @@ public class BoardController {
 		return "board/write" ;
 	}
 	
-	//게시판 글  등록
+	//게시판 글  등록 후 -> 게시판 페이지 가져오기(redirect)
 	@RequestMapping(value = "/write", method = RequestMethod.POST)
 	public String insert(@ModelAttribute BoardVo vo,HttpSession session) {
 	
@@ -77,11 +77,19 @@ public class BoardController {
 	}
 	
 	
-	//게시판 수정한 게시판 글  등록하기
-	@RequestMapping(value="/update",method=RequestMethod.POST)
-	public String update(@PathVariable("no") Long no,@PathVariable("userNo") Long userNo) {
-		boardService.update(no, userNo);
-		return "redirect:/board/list" ;
+	//게시판 수정한 글 등록하기  -> 게시판 페이지 가져오기(redirect)
+	@RequestMapping(value="/modifyform",method=RequestMethod.POST)
+	public String update(@ModelAttribute BoardVo vo, HttpSession session) {
+		
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+
+		System.out.println(vo);
+		if (authUser != null) {
+			vo.setUserNo(authUser.getNo());
+			boardService.update(vo);
+		}
+		
+		return "redirect:/board";
 	}
 		
 	//게시판 삭제한 폼 조회하기

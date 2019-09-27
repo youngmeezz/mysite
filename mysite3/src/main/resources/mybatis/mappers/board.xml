@@ -86,9 +86,9 @@
 		<![CDATA[
 			update board 
 				set title = #{title}, 
-					contents =#{contents} 
+					contents = #{contents} 
 			where no = #{no } 
-			and user_no = #{userNo}";
+			and user_no = #{userNo};
 		]]>
 	</update>
 

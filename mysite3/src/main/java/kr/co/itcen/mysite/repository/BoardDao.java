@@ -25,7 +25,7 @@ public class BoardDao {
 		
 	}
 	
-	/////insert 글쓰기(성공)/////
+	/////insert 글쓰기(성공) /////
 	public Boolean insert(BoardVo boardVo) {
 
 		int count = sqlSession.insert("board.insert", boardVo);
@@ -34,31 +34,33 @@ public class BoardDao {
 	}
 	
 	
-	/////select 게시글 제목 클릭해서 View할 내용 조회하기/////
+	/////select 게시글 제목 클릭해서 View할 내용 조회하기(성공)/////
 	public BoardVo get(Long no, Long userNo) {
 		return sqlSession.selectOne("board.getByNo", no);
 	}
 	
 	
-	/////select 게시글 제목 클릭해서 View할 내용 조회하면 조회수 증가하기/////
+	/////select 게시글 제목 클릭해서 View할 내용 조회하면 조회수 증가하기(성공)/////
 	public Boolean hitInsert(Long no, Long userNo) {
 		int count = sqlSession.insert("board.hit",no);
 		return count == 1;
 	}
 	
 
-	/////update 수정하기/////
+	/////update 수정하기(성공)/////
 
-	public Boolean update(Long no, Long userNo){
+	public Boolean update(BoardVo vo){
 		
-		Map<String,Long> map = new HashMap<String,Long>();
-		map.put("no", no);
-		map.put("userNo", userNo);
+//		Map<String,Long> map = new HashMap<String,Long>();
+//		map.put("no", no);
+//		map.put("userNo", userNo);
 		
-		int result = sqlSession.update("board.update",map);
+		int result = sqlSession.update("board.update",vo);
 		return result == 1;
 	}
 
+	
+	
 	
 	//// replyInsert 답글쓰기  업데이트 부분 어떻게 받아와야할지 모르겠???????????????????????///////
 	public void replyInsert(BoardVo boardVo) {
