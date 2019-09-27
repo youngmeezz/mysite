@@ -77,13 +77,14 @@ public class BoardController {
 	}
 	
 	
-	//게시판 수정한 글 등록하기  -> 게시판 페이지 가져오기(redirect)
+	//게시판 수정한 글 등록하기  -> 게시판 페이지 가져오기(redirect) 
+	//POST -> 데이터가 뒤에 붙지 않고 GET -> 데이터파라미터 받는것
 	@RequestMapping(value="/modifyform",method=RequestMethod.POST)
 	public String update(@ModelAttribute BoardVo vo, HttpSession session) {
 		
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
 
-		System.out.println(vo);
+
 		if (authUser != null) {
 			vo.setUserNo(authUser.getNo());
 			boardService.update(vo);
@@ -92,19 +93,21 @@ public class BoardController {
 		return "redirect:/board";
 	}
 		
-	//게시판 삭제한 폼 조회하기
-//	@RequestMapping(value = "/delete/{no}", method = RequestMethod.GET)
-//	public String delete(@PathVariable("no") Long no, Model model) {
-//		model.addAttribute("no",no);
-//		return "board/deleteform";
-//	}
 	
-	//게시판 삭제한 후 페이지 돌아오기
-//	@RequestMapping(value="/delete",method=RequestMethod.POST)
-//	public String delete(@PathVariable("no") Long no, @PathVariable("userNo") Long userNo) {
-//		boardService.delete(no, userNo);
-//		return "redirect:/board/list" ;
-//	}
+	//게시판 삭제 하기  -> 게시판 페이지 가져오기(redirect)
+	@RequestMapping(value="/deleteform/{no}",method=RequestMethod.GET)
+	public String delete(@PathVariable("no") Long no,
+			@ModelAttribute BoardVo vo, HttpSession session) {
+		
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		
+		if (authUser != null) {
+			vo.setUserNo(authUser.getNo());
+			boardService.delete(vo);
+		}
+	
+		return "redirect:/board" ;
+	}
 
 	
 }

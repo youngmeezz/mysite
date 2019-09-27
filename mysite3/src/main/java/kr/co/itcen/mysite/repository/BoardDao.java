@@ -60,6 +60,15 @@ public class BoardDao {
 	}
 
 	
+	/////delete 삭제하기(진행중)/////
+	
+	public Boolean delete(BoardVo vo) {
+	
+		//board.delete는 sql쿼리문연결입니다. board는 username이고 delete는 sql의 id입니다.
+		int result = sqlSession.delete("board.delete",vo);
+		return result == 1;
+	}
+	
 	
 	
 	//// replyInsert 답글쓰기  업데이트 부분 어떻게 받아와야할지 모르겠???????????????????????///////
@@ -68,7 +77,8 @@ public class BoardDao {
 		sqlSession.insert("board.replyInsert", boardVo);
 		
 	}
-	
+
+
 	
 	
 

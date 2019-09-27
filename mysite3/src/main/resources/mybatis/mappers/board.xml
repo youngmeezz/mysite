@@ -94,11 +94,12 @@
 
 
 <!-- 글 삭제  -->
-	<update id="deleteByNoAnduserNo" parameterType="boardvo">
+	<update id="delete" parameterType="boardvo">
 		<![CDATA[
 			update board 
 				set status=0 
-			where no= #{no}";
+			where no= #{no}
+			and	  user_no = #{userNo};
 		]]>
 	</update>
 

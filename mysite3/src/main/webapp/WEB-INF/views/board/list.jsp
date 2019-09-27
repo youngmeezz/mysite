@@ -36,20 +36,21 @@
 							<c:if test="${vo.depth gt 0}">
 								<img src='${pageContext.servletContext.contextPath }/assets/images/reply.png'/>
 							</c:if>
-							<a href="${pageContext.servletContext.contextPath }/board/view/${vo.no}">
+							
 								<c:choose>
 									<c:when test="${vo.status eq 0}">
 										삭제된 게시물 입니다.
 									</c:when>
 									<c:otherwise>
-										${vo.title }
+									<a href="${pageContext.servletContext.contextPath }/board/view/${vo.no}">${vo.title }</a>
+										
 									</c:otherwise>
 								</c:choose>
 							</a></td>
 						<td>${vo.name }</td>
 						<td>${vo.hit }</td>
 						<td>${vo.registerDate }</td>
-						<td><a href="${pageContext.servletContext.contextPath }/board?a=deleteform&no=${vo.no}&userNo=${vo.userNo}" class="del">삭제</a></td>
+						<td><a href="${pageContext.servletContext.contextPath }/board/deleteform/${vo.no}" class="del">삭제</a></td>
 					</tr>
 					</c:forEach>
 				</table>
