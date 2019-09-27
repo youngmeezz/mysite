@@ -54,13 +54,16 @@ public class BoardController {
 	
 	
 	//게시판 글 쓴 view 페이지 가져오기
-	@RequestMapping(value = "/view", method = RequestMethod.GET)
-	public String viewForm(@PathVariable("no") Long no,@PathVariable("userNo") Long userNo,Model model) {
+	@RequestMapping(value = "/view/{no}", method = RequestMethod.GET)
+	public String viewForm(@PathVariable("no") Long no, Long userNo,Model model) {
 		
+		BoardVo vo = boardService.get(no,userNo);
+		model.addAttribute("vo",vo);
 		
-		boardService.get(no,userNo);
-	
-		return "redirect:/board/view" ;
+		//view 조회 하면 조회수 증가하기
+		boardService.hit(no, userNo);
+		
+		return "board/view" ;
 
 	}
 	

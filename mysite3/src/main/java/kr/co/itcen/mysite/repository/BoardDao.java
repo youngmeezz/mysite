@@ -34,9 +34,7 @@ public class BoardDao {
 	
 	/////select 게시글 제목 클릭해서 View할 내용 조회하기/////
 	public BoardVo get(Long no, Long userNo) {
-		
 		return sqlSession.selectOne("board.getByNo", no);
-		
 	}
 	
 	

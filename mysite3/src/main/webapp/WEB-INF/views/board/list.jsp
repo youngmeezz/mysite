@@ -36,7 +36,7 @@
 							<c:if test="${vo.depth gt 0}">
 								<img src='${pageContext.servletContext.contextPath }/assets/images/reply.png'/>
 							</c:if>
-							<a href="${pageContext.servletContext.contextPath }/board/view&no=${vo.no}&userNo=${vo.userNo}">
+							<a href="${pageContext.servletContext.contextPath }/board/view/${vo.no}">
 								<c:choose>
 									<c:when test="${vo.status eq 0}">
 										삭제된 게시물 입니다.

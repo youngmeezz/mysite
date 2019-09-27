@@ -26,6 +26,10 @@ public class BoardService {
 		return boardDao.get(no,userNo);
 	}
 
+	public BoardVo hit(Long no, Long userNo){
+		return boardDao.get(no,userNo);
+	}
+
 	
 //	public void update(Long no, Long userNo) {
 //		boardDao.update(no, userNo);
