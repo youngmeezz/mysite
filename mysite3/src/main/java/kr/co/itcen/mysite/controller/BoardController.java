@@ -48,7 +48,6 @@ public class BoardController {
 			boardService.insert(vo);
 		}
 		
-		
 		return "redirect:/board" ;
 	}
 	
@@ -67,6 +66,23 @@ public class BoardController {
 
 	}
 	
+	//게시판 수정할 폼 페이지 가져오기
+	@RequestMapping(value = "/modifyform/{no}", method = RequestMethod.GET)
+	public String updateForm(@PathVariable("no") Long no, Model model) {
+		
+		BoardVo vo = boardService.get(no,0L);
+		model.addAttribute("vo",vo);
+		
+		return "board/modify";
+	}
+	
+	
+	//게시판 수정한 게시판 글  등록하기
+	@RequestMapping(value="/update",method=RequestMethod.POST)
+	public String update(@PathVariable("no") Long no,@PathVariable("userNo") Long userNo) {
+		boardService.update(no, userNo);
+		return "redirect:/board/list" ;
+	}
 		
 	//게시판 삭제한 폼 조회하기
 //	@RequestMapping(value = "/delete/{no}", method = RequestMethod.GET)
@@ -79,21 +95,6 @@ public class BoardController {
 //	@RequestMapping(value="/delete",method=RequestMethod.POST)
 //	public String delete(@PathVariable("no") Long no, @PathVariable("userNo") Long userNo) {
 //		boardService.delete(no, userNo);
-//		return "redirect:/board/list" ;
-//	}
-//
-//	
-//	//게시판 수정한 폼 조회하기
-//	@RequestMapping(value = "/update/{no}", method = RequestMethod.GET)
-//	public String update(@PathVariable("no") Long no, Model model) {
-//		model.addAttribute("no",no);
-//		return "board/modify";
-//	}
-//	
-//	//게시판 수정한 후 페이지 돌아오기
-//	@RequestMapping(value="/update",method=RequestMethod.GET)
-//	public String updateForm(@PathVariable("no") Long no,@PathVariable("userNo") Long userNo) {
-//		boardService.update(no, userNo);
 //		return "redirect:/board/list" ;
 //	}
 

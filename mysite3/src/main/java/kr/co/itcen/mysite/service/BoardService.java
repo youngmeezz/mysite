@@ -31,9 +31,9 @@ public class BoardService {
 	}
 
 	
-//	public void update(Long no, Long userNo) {
-//		boardDao.update(no, userNo);
-//	}
+	public void update(Long no, Long userNo) {
+		boardDao.update(no, userNo);
+	}
 //	
 //	public void delete(Long no, Long userNo) {
 //		boardDao.delete(no, userNo);

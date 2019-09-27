@@ -1,6 +1,8 @@
 package kr.co.itcen.mysite.repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +47,18 @@ public class BoardDao {
 	}
 	
 
+	/////update 수정하기/////
+
+	public Boolean update(Long no, Long userNo){
+		
+		Map<String,Long> map = new HashMap<String,Long>();
+		map.put("no", no);
+		map.put("userNo", userNo);
+		
+		int result = sqlSession.update("board.update",map);
+		return result == 1;
+	}
+
 	
 	//// replyInsert 답글쓰기  업데이트 부분 어떻게 받아와야할지 모르겠???????????????????????///////
 	public void replyInsert(BoardVo boardVo) {
@@ -58,17 +72,6 @@ public class BoardDao {
 
 	
 
-	/////update 수정하기/////
-
-//	public Boolean update(Long no, Long userNo){
-//		
-//		Map<String,Long> map = new HashMap<String,Long>();
-//		map.put("no", no);
-//		map.put("userNo", userNo);
-//		
-//		BoardVo result = sqlSession.update("board.update",map);
-//		return result;
-//	}
 
 	
 	/////delete 삭제하기 /////
