@@ -38,6 +38,14 @@ public class BoardDao {
 	}
 	
 	
+	/////select 게시글 제목 클릭해서 View할 내용 조회하면 조회수 증가하기/////
+	public Boolean hitInsert(Long no, Long userNo) {
+		int count = sqlSession.insert("board.hit",no);
+		return count == 1;
+	}
+	
+
+	
 	//// replyInsert 답글쓰기  업데이트 부분 어떻게 받아와야할지 모르겠???????????????????????///////
 	public void replyInsert(BoardVo boardVo) {
 		
