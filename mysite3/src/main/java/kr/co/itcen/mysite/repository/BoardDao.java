@@ -17,10 +17,13 @@ public class BoardDao {
 	@Autowired
 	private SqlSession sqlSession;
 
-	/////select 게시판 첫 조회하기User랑 Board랑 조인한 부분 (성공) 검색 기능 빼고/////
-	public List<BoardVo> getList() throws BoardDaoException{
+	/////select 게시판 첫 조회하기User랑 Board랑 조인한 부분 (성공) 검색 기능 페이징 처리 필요/////
+	public List<BoardVo> getList(String keyword) throws BoardDaoException{
 		
-		List<BoardVo> result = sqlSession.selectList("board.getList");
+		Map<String, Object> map = new HashMap<>();
+		map.put("keyword", keyword);
+		
+		List<BoardVo> result = sqlSession.selectList("board.getList", map);
 		return result;
 		
 	}
@@ -84,6 +87,9 @@ public class BoardDao {
 		sqlSession.update("board.replyUpdate", boardVo);
 	}
 
+	public void countSelect(BoardVo boardVo) {
+		sqlSession.selectOne("board.countSelect",boardVo);
+	}
 }
 	
 

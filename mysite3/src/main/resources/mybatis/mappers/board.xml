@@ -4,7 +4,7 @@
 <mapper namespace="board">
 
 <!-- 전체 조회 -->
-	<select id="getList" parameterType="boardvo" resultType="boardvo">
+	<select id="getList" parameterType="map" resultType="boardvo">
 		<![CDATA[
 			 select b.no as 'no',
 			   		b.title as 'title',
@@ -15,6 +15,8 @@
 			   		b.status as 'status' 
 				from user u, board b 
 			 where u.no = b.user_no 
+			   and (b.title like concat('%', #{keyword}, '%')
+			   	   or b.contents like concat('%', #{keyword}, '%'))
 			order by b.g_no desc, b.o_no asc 
 			limit 0,10
 		]]>
@@ -121,6 +123,14 @@
 			and	  user_no = #{userNo};
 		]]>
 	</update>
-
+	
+<!-- 검색됬을때 전체 카운트 -->
+	<select id="countSelect" parameterType="boardvo">
+		<![CDATA[
+			select count(*) as 'cnt' 
+				from board
+			where title like #{title} or contents like #{contents};
+		]]>
+	</select>
 </mapper>
 

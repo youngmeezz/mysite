@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.co.itcen.mysite.service.BoardService;
 import kr.co.itcen.mysite.vo.BoardVo;
@@ -25,9 +26,11 @@ public class BoardController {
 	
 	//게시판 조회하기
 	@RequestMapping({"", "/list"})
-	public String list(Model model) {
-		List<BoardVo> list = boardService.getList();
-		model.addAttribute("list",list);   //??????
+	public String list(Model model, @RequestParam(value = "keyword", required = false)String keyword) {
+		List<BoardVo> list = boardService.getList(keyword);
+		model.addAttribute("list",list); 
+		
+		System.out.println(keyword);
 		return "board/list";
 	}
 	
@@ -80,7 +83,7 @@ public class BoardController {
 	
 	//게시판 수정한 글 등록하기  -> 게시판 페이지 가져오기(redirect) 
 	//POST -> 데이터가 뒤에 붙지 않고 GET -> 데이터파라미터 받는것
-	@RequestMapping(value="/modifyform",method=RequestMethod.POST)
+	@RequestMapping(value="/modifyform", method = RequestMethod.POST)
 	public String update(@ModelAttribute BoardVo vo, HttpSession session) {
 		
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
@@ -96,7 +99,7 @@ public class BoardController {
 		
 	
 	//게시판 삭제 하기  -> 게시판 페이지 가져오기(redirect)
-	@RequestMapping(value="/deleteform/{no}",method=RequestMethod.GET)
+	@RequestMapping(value="/deleteform/{no}", method = RequestMethod.GET)
 	public String delete(@PathVariable("no") Long no,
 			@ModelAttribute BoardVo vo, HttpSession session) {
 		
@@ -115,7 +118,6 @@ public class BoardController {
 	public String replyForm(@PathVariable("no") Long no, Model model) {
 		
 		BoardVo vo = boardService.get(no,0L);
-//		model.addAttribute("vo",vo);
 		model.addAttribute("parentNo", no);
 		
 		return "board/write";

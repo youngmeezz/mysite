@@ -14,8 +14,12 @@ public class BoardService {
 	@Autowired
 	private BoardDao boardDao;
 
-	public List<BoardVo> getList() {
-		return boardDao.getList();
+	public List<BoardVo> getList(String keyword) {
+		//boardDao.countSelect(boardVo);
+		if (keyword == null) {
+			keyword = "";
+		}
+		return boardDao.getList(keyword);
 	}
 
 	public void insert(BoardVo vo) {
