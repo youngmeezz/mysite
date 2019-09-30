@@ -60,4 +60,13 @@
 		]]>
 	</select>
 	
+	
+	<select id="getByEmail" parameterType="string" resultType="uservo">
+		<![CDATA[
+			select no,email
+				from user 
+			where email = #{email}
+		]]>
+	</select>
+	
 </mapper>

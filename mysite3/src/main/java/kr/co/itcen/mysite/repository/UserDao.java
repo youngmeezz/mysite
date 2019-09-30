@@ -50,4 +50,10 @@ public class UserDao {
 		return result;
 	}
 	
+	
+	//이메일로 검색해서 가져올때의 get 오버로드2
+		public UserVo get(String email) {
+			return sqlSession.selectOne("user.getByEmail", email);
+		}
+	
 }

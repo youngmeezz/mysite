@@ -60,7 +60,7 @@ public class BoardDao {
 	}
 
 	
-	/////delete 삭제하기(진행중)/////
+	/////delete 삭제하기(성공)/////
 	
 	public Boolean delete(BoardVo vo) {
 	
@@ -71,32 +71,19 @@ public class BoardDao {
 	
 	
 	
-	//// replyInsert 답글쓰기  업데이트 부분 어떻게 받아와야할지 모르겠???????????????????????///////
+	//// replyInsert 답글쓰기 (진행중)//////
+	//// 여기서 g_no랑 o_no도 함께 update하는 구문 필요 -> 이거 controller에서 구현하기
 	public void replyInsert(BoardVo boardVo) {
 		
 		sqlSession.insert("board.replyInsert", boardVo);
 		
 	}
 
+	public void replyUpdate(BoardVo boardVo) {
+		// TODO Auto-generated method stub
+		sqlSession.update("board.replyUpdate", boardVo);
+	}
 
-	
-	
-
-	
-
-
-	
-	/////delete 삭제하기 /////
-//	
-//	public BoardVo delete(Long no, Long userNo) {
-//
-//		Map<Long,Long> map = new HashMap<Long,Long>();
-//		map.put(no, no);
-//		map.put(userNo, userNo);
-//		
-//		BoardVo result = sqlSession.delete("board.deleteByNoAnduserNo",map);
-//		return result;
-//	}
 }
 	
 

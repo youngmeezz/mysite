@@ -37,7 +37,7 @@
 					<c:if test="${not empty authUser }">
 					<a href="${pageContext.servletContext.contextPath }/board/modifyform/${vo.no}">글수정</a>	
 					<a href="${pageContext.servletContext.contextPath }/board/deleteform/${vo.no}">글삭제</a>	
-					<a href="${pageContext.servletContext.contextPath }/board?a=writeform&no=${vo.no}">답글달기</a>	
+					<a href="${pageContext.servletContext.contextPath }/board/writeform/${vo.no}">답글달기</a>	
 					</c:if>
 				</div>
 			</div>

@@ -41,7 +41,16 @@
 		<![CDATA[
 		insert 
 			into board
-		 values(null,#{title},#{contents},0,now(),(select ifnull(max(g_no) + 1, 1) from board as b),#{orderNumber},#{depth},#{userNo},1);
+				 values(null,
+				 		#{title},
+				 		#{contents},
+				 		0,
+				 		now(),
+				 		(select ifnull(max(g_no) + 1, 1) from board as b),
+				 		#{orderNumber},
+				 		#{depth},
+				 		#{userNo},
+				 		1);
 		]]>
 		<selectKey keyProperty="no" resultType="long" order="AFTER">
 			<![CDATA[
@@ -55,18 +64,28 @@
 	<update id="replyUpdate" parameterType="boardvo">
 		<![CDATA[
 		update board  
-			set o_no = o_no + 1  
+			set o_no = #{orderNumber}
+			    , depth = #{depth}
 		where g_no = #{groupNumber} 
 		and o_no >= #{orderNumber}
 		]]>
 	</update>
 	
-<!-- 답글 삽입  (no,title,contents,hit,reg_date,g_no,o_no,depth,user_no,status) ??????-->
+<!-- 답글 삽입  (no,title,contents,hit,reg_date,g_no,o_no,depth,user_no,status)-->
 	<insert id="replyInsert" parameterType="boardvo">
 		<![CDATA[
 			insert 
 			into board
-			values(null,#{title},#{contents},0,now(),#{groupNumber},#{orderNumber},#{depth},1)";
+				values(	null,
+						#{title},
+						#{contents},
+						0,
+						now(),
+						#{groupNumber},
+						#{orderNumber},
+						#{depth},
+						#{userNo},
+						1);
 		]]>
 	</insert>
 	

@@ -46,6 +46,7 @@ public class BoardController {
 		if (authUser != null) {
 			vo.setUserNo(authUser.getNo());
 			boardService.insert(vo);
+			
 		}
 		
 		return "redirect:/board" ;
@@ -108,6 +109,29 @@ public class BoardController {
 	
 		return "redirect:/board" ;
 	}
-
 	
+	//게시판 답글 작성 할 폼 가져오기
+	@RequestMapping(value = "/writeform/{no}", method = RequestMethod.GET)
+	public String replyForm(@PathVariable("no") Long no, Model model) {
+		
+		BoardVo vo = boardService.get(no,0L);
+//		model.addAttribute("vo",vo);
+		model.addAttribute("parentNo", no);
+		
+		return "board/write";
+	}
+	
+	//게시판 답글 작성 후 -> 게시판 페이지 가져오기 (이때 그룹넘버(g_no),순서넘버(o_no) 업데이트시키기)
+	@RequestMapping(value = "/reply", method = RequestMethod.POST)
+	public String replyInsert(@ModelAttribute BoardVo vo,HttpSession session) {
+	
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+				
+		if (authUser != null) {
+			vo.setUserNo(authUser.getNo());
+			boardService.replyInsert(vo);
+		}
+
+		return "redirect:/board" ;
+	}
 }

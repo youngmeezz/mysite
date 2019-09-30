@@ -39,4 +39,19 @@ public class BoardService {
 		boardDao.delete(vo);
 		
 	}
+
+	public void replyInsert(BoardVo vo) {
+		//select -> update -> insert 답글
+		
+		BoardVo parentVo = boardDao.get(vo.getNo(), 0L);
+		
+		vo.setGroupNumber(parentVo.getGroupNumber());
+		vo.setOrderNumber(parentVo.getOrderNumber() + 1);
+		vo.setDepth(parentVo.getDepth() + 1);
+		
+		boardDao.replyUpdate(vo);
+		
+		boardDao.replyInsert(vo);
+	}
+	
 }
