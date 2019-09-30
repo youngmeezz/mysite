@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import kr.co.itcen.mysite.repository.BoardDao;
 import kr.co.itcen.mysite.vo.BoardVo;
+import kr.co.itcen.mysite.vo.Pagination;
 
 @Service
 public class BoardService {
@@ -14,12 +15,8 @@ public class BoardService {
 	@Autowired
 	private BoardDao boardDao;
 
-	public List<BoardVo> getList(String keyword) {
-		//boardDao.countSelect(boardVo);
-		if (keyword == null) {
-			keyword = "";
-		}
-		return boardDao.getList(keyword);
+	public List<BoardVo> getList(String keyword, Pagination pagination) {
+		return boardDao.getList(keyword, pagination);
 	}
 
 	public void insert(BoardVo vo) {
@@ -58,4 +55,7 @@ public class BoardService {
 		boardDao.replyInsert(vo);
 	}
 	
+	public int getBoardCount(String keyword) {
+		return boardDao.countSelect(keyword);
+	}
 }

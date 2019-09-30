@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import kr.co.itcen.mysite.exception.BoardDaoException;
 import kr.co.itcen.mysite.vo.BoardVo;
+import kr.co.itcen.mysite.vo.Pagination;
 
 @Repository
 public class BoardDao {
@@ -18,10 +19,12 @@ public class BoardDao {
 	private SqlSession sqlSession;
 
 	/////select 게시판 첫 조회하기User랑 Board랑 조인한 부분 (성공) 검색 기능 페이징 처리 필요/////
-	public List<BoardVo> getList(String keyword) throws BoardDaoException{
+	public List<BoardVo> getList(String keyword, Pagination pagination) throws BoardDaoException{
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("keyword", keyword);
+		map.put("page", (pagination.getCurrentPage() - 1) * pagination.getListSize());
+		map.put("listSize", pagination.getListSize());
 		
 		List<BoardVo> result = sqlSession.selectList("board.getList", map);
 		return result;
@@ -79,16 +82,16 @@ public class BoardDao {
 	public void replyInsert(BoardVo boardVo) {
 		
 		sqlSession.insert("board.replyInsert", boardVo);
-		
 	}
 
 	public void replyUpdate(BoardVo boardVo) {
-		// TODO Auto-generated method stub
+
 		sqlSession.update("board.replyUpdate", boardVo);
 	}
 
-	public void countSelect(BoardVo boardVo) {
-		sqlSession.selectOne("board.countSelect",boardVo);
+	public int countSelect(String keyword) {
+		
+		return sqlSession.selectOne("board.countSelect", keyword);
 	}
 }
 	

@@ -18,7 +18,8 @@
 			   and (b.title like concat('%', #{keyword}, '%')
 			   	   or b.contents like concat('%', #{keyword}, '%'))
 			order by b.g_no desc, b.o_no asc 
-			limit 0,10
+			limit #{page}, #{listSize}
+			;
 		]]>
 	</select>
 
@@ -125,11 +126,12 @@
 	</update>
 	
 <!-- 검색됬을때 전체 카운트 -->
-	<select id="countSelect" parameterType="boardvo">
+	<select id="countSelect" parameterType="string" resultType="int">
 		<![CDATA[
 			select count(*) as 'cnt' 
 				from board
-			where title like #{title} or contents like #{contents};
+			where title like concat('%', #{keyword}, '%')
+			   	   or contents like concat('%', #{keyword}, '%');
 		]]>
 	</select>
 </mapper>

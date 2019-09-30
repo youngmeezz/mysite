@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.co.itcen.mysite.service.BoardService;
 import kr.co.itcen.mysite.vo.BoardVo;
+import kr.co.itcen.mysite.vo.Pagination;
 import kr.co.itcen.mysite.vo.UserVo;
 
 @Controller
@@ -26,11 +27,17 @@ public class BoardController {
 	
 	//게시판 조회하기
 	@RequestMapping({"", "/list"})
-	public String list(Model model, @RequestParam(value = "keyword", required = false)String keyword) {
-		List<BoardVo> list = boardService.getList(keyword);
-		model.addAttribute("list",list); 
+	public String list(Model model, @RequestParam(value = "keyword", required = false, defaultValue = "")String keyword, @RequestParam(value="page", defaultValue = "1", required = false)int page) {
+		int totalCnt = boardService.getBoardCount(keyword);
 		
-		System.out.println(keyword);
+		Pagination pagination = new Pagination(page, totalCnt, 10, 5);
+
+		
+		List<BoardVo> list = boardService.getList(keyword, pagination);
+		
+		model.addAttribute("list",list);
+		model.addAttribute("keyword", keyword);
+		model.addAttribute("pagination", pagination);
 		return "board/list";
 	}
 	
@@ -82,7 +89,7 @@ public class BoardController {
 	
 	
 	//게시판 수정한 글 등록하기  -> 게시판 페이지 가져오기(redirect) 
-	//POST -> 데이터가 뒤에 붙지 않고 GET -> 데이터파라미터 받는것
+	//POST -> 데이터가 뒤에 붙지 않고 / GET -> 데이터파라미터 받는것
 	@RequestMapping(value="/modifyform", method = RequestMethod.POST)
 	public String update(@ModelAttribute BoardVo vo, HttpSession session) {
 		
