@@ -112,12 +112,13 @@ public class BoardController {
 		
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
 		
+		//삭제된 게시물 검색 안되게 하기
 		if (authUser != null) {
 			vo.setUserNo(authUser.getNo());
 			boardService.delete(vo);
 		}
 	
-		return "redirect:/board" ;
+		return "redirect:/board";
 	}
 	
 	//게시판 답글 작성 할 폼 가져오기
@@ -141,6 +142,6 @@ public class BoardController {
 			boardService.replyInsert(vo);
 		}
 
-		return "redirect:/board" ;
+		return "redirect:/board";
 	}
 }

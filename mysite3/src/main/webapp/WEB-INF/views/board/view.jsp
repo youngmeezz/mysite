@@ -34,11 +34,13 @@
 				</table>
 				<div class="bottom">
 					<a href="${pageContext.servletContext.contextPath }/board">글목록</a>
-					<c:if test="${not empty authUser }">
+				<c:if test="${sessionScope.authUser.no eq vo.userNo }">	
 					<a href="${pageContext.servletContext.contextPath }/board/modifyform/${vo.no}">글수정</a>	
 					<a href="${pageContext.servletContext.contextPath }/board/deleteform/${vo.no}">글삭제</a>	
+				</c:if>
+				<c:if test="${!empty sessionScope.authUser }">	
 					<a href="${pageContext.servletContext.contextPath }/board/writeform/${vo.no}">답글달기</a>	
-					</c:if>
+				</c:if>
 				</div>
 			</div>
 		</div>
