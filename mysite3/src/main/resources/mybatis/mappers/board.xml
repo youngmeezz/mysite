@@ -17,7 +17,7 @@
 			 where u.no = b.user_no 
 			   and (b.title like concat('%', #{keyword}, '%')
 			   	   or b.contents like concat('%', #{keyword}, '%'))
-			order by b.g_no desc, b.o_no asc 
+			order by b.g_no desc, b.o_no asc
 			limit #{page}, #{listSize}
 			;
 		]]>
@@ -67,8 +67,7 @@
 	<update id="replyUpdate" parameterType="boardvo">
 		<![CDATA[
 		update board  
-			set o_no = #{orderNumber}
-			    , depth = #{depth}
+			set o_no = o_no+1
 		where g_no = #{groupNumber} 
 		and o_no >= #{orderNumber}
 		]]>

@@ -21,16 +21,16 @@
 			<div id="board">
 				<c:choose>
 					<c:when test="${not empty parentNo }">
-						<c:set var="kk"
+						<c:set var="seperator"
 							value="${pageContext.servletContext.contextPath }/board/reply"></c:set>
 					</c:when>
 					<c:otherwise>
-						<c:set var="kk"
+						<c:set var="seperator"
 							value="${pageContext.servletContext.contextPath }/board/write"></c:set>
 					</c:otherwise>
 				</c:choose>
 				<form:form modelAttribute="boardVo" id="board-form" name="boardForm" cssClass="board-form"
-					method="post" action="${kk }">
+					method="post" action="${seperator }">
 					<input type="hidden" name="no" value="${parentNo }">
 					<table class="tbl-ex">
 						<tr>

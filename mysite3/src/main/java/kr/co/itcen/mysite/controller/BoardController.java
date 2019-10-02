@@ -34,7 +34,6 @@ public class BoardController {
 		int totalCnt = boardService.getBoardCount(keyword);
 		
 		Pagination pagination = new Pagination(page, totalCnt, 10, 5);
-
 		
 		List<BoardVo> list = boardService.getList(keyword, pagination);
 		
@@ -44,7 +43,7 @@ public class BoardController {
 		return "board/list";
 	}
 	
-	//게시판 글 삽입할 글쓰기 페이지 가져오기
+	//게시판 글 삽입할 글쓰기 페이지 가져오기 (validation)
 	@RequestMapping(value = "/write", method = RequestMethod.GET)
 	public String insertForm(@RequestParam(value = "file", required = false)MultipartFile multipartFile,Model model, @ModelAttribute BoardVo boardVo) {
 	
@@ -56,7 +55,7 @@ public class BoardController {
 	
 	
 	
-	//게시판 글  등록 후 -> 게시판 페이지 가져오기(redirect)
+	//게시판 글  등록 후 -> 게시판 페이지 가져오기(redirect) (validation)
 	@RequestMapping(value = "/write", method = RequestMethod.POST)
 	public String insert(@ModelAttribute("boardVo") @Valid BoardVo vo,BindingResult result, Model model,HttpSession session) {
 		
@@ -93,7 +92,7 @@ public class BoardController {
 	}
 	
 	
-	//게시판 수정할 폼 페이지 가져오기
+	//게시판 수정할 폼 페이지 가져오기 (validation)
 	@RequestMapping(value = "/modifyform/{no}", method = RequestMethod.GET)
 	public String updateForm(@PathVariable("no") Long no, Model model, @ModelAttribute BoardVo boardVo) {
 		
@@ -104,7 +103,7 @@ public class BoardController {
 	}
 	
 	
-	//게시판 수정한 글 등록하기  -> 게시판 페이지 가져오기(redirect) 
+	//게시판 수정한 글 등록하기  -> 게시판 페이지 가져오기(redirect) (validation)
 	//POST -> 데이터가 뒤에 붙지 않고 / GET -> 데이터파라미터 받는것
 	@RequestMapping(value="/modifyform", method = RequestMethod.POST)
 	public String update(@ModelAttribute("boardVo") @Valid BoardVo vo,BindingResult result, Model model,HttpSession session) {
@@ -141,7 +140,7 @@ public class BoardController {
 		return "redirect:/board";
 	}
 	
-	//게시판 답글 작성 할 폼 가져오기
+	//게시판 답글 작성 할 폼 가져오기(validation)
 	@RequestMapping(value = "/writeform/{no}", method = RequestMethod.GET)
 	public String replyForm(@PathVariable("no") Long no, Model model, @ModelAttribute BoardVo boardVo) {
 		
@@ -154,12 +153,11 @@ public class BoardController {
 	
 
 	
-	//게시판 답글 작성 후 -> 게시판 페이지 가져오기 (이때 그룹넘버(g_no),순서넘버(o_no) 업데이트시키기)
+	//게시판 답글 작성 후 -> 게시판 페이지 가져오기 (이때 그룹넘버(g_no),순서넘버(o_no) 업데이트시키기)(validation)
 	@RequestMapping(value = "/reply", method = RequestMethod.POST)
 	public String replyInsert(@ModelAttribute("boardVo") @Valid BoardVo vo,BindingResult result, Model model,HttpSession session) {
 	
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
-				
 		if( result.hasErrors() ) {
 			model.addAllAttributes(result.getModel());
 			return "board/write";
@@ -175,10 +173,7 @@ public class BoardController {
 	
 
 	
-//	@RequestMapping("/form")
-//	public String form() {
-//		return "form";
-//	}
+
 	
 	//글 작성하기에 파일업로드 포함시키기
 //	@RequestMapping("/upload")
