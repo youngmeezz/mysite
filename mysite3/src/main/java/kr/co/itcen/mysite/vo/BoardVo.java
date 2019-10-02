@@ -18,7 +18,6 @@ public class BoardVo {
 	private int groupNumber;
 	private int orderNumber;
 	private int depth;
-
 	private Long userNo;
 	private int status;
 	

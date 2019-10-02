@@ -46,7 +46,7 @@ public class BoardController {
 	
 	//게시판 글 삽입할 글쓰기 페이지 가져오기
 	@RequestMapping(value = "/write", method = RequestMethod.GET)
-	public String insertForm(@RequestParam(value = "file", required = false)MultipartFile multipartFile,Model model) {
+	public String insertForm(@RequestParam(value = "file", required = false)MultipartFile multipartFile,Model model, @ModelAttribute BoardVo boardVo) {
 	
 		String url = boardService.restore(multipartFile);
 		model.addAttribute("url",url);	
@@ -72,14 +72,22 @@ public class BoardController {
 	
 	//게시판 글  등록 후 -> 게시판 페이지 가져오기(redirect)
 	@RequestMapping(value = "/write", method = RequestMethod.POST)
-	public String insert(@ModelAttribute("boardVo") @Valid BoardVo vo,BindingResult result, Model model) {
+	public String insert(@ModelAttribute("boardVo") @Valid BoardVo vo,BindingResult result, Model model,HttpSession session) {
 		
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+	
 		
 		if( result.hasErrors() ) {
 			model.addAllAttributes(result.getModel());
-			boardService.insert(vo);
+			return "board/write";
 		}
 		
+
+		if (authUser != null) {
+			vo.setUserNo(authUser.getNo());
+			boardService.insert(vo);
+			
+		}
 		return "redirect:/board" ;
 	}
 	
@@ -96,8 +104,8 @@ public class BoardController {
 		boardService.hit(no, userNo);
 		
 		return "board/view" ;
-
 	}
+	
 	
 	//게시판 수정할 폼 페이지 가져오기
 	@RequestMapping(value = "/modifyform/{no}", method = RequestMethod.GET)
@@ -145,7 +153,7 @@ public class BoardController {
 	
 	//게시판 답글 작성 할 폼 가져오기
 	@RequestMapping(value = "/writeform/{no}", method = RequestMethod.GET)
-	public String replyForm(@PathVariable("no") Long no, Model model) {
+	public String replyForm(@PathVariable("no") Long no, Model model, @ModelAttribute BoardVo boardVo) {
 		
 		BoardVo vo = boardService.get(no,0L);
 		model.addAttribute("parentNo", no);
@@ -153,12 +161,20 @@ public class BoardController {
 		return "board/write";
 	}
 	
+	
+
+	
 	//게시판 답글 작성 후 -> 게시판 페이지 가져오기 (이때 그룹넘버(g_no),순서넘버(o_no) 업데이트시키기)
 	@RequestMapping(value = "/reply", method = RequestMethod.POST)
-	public String replyInsert(@ModelAttribute BoardVo vo,HttpSession session) {
+	public String replyInsert(@ModelAttribute("boardVo") @Valid BoardVo vo,BindingResult result, Model model,HttpSession session) {
 	
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
 				
+		if( result.hasErrors() ) {
+			model.addAllAttributes(result.getModel());
+			return "board/write";
+		}
+		
 		if (authUser != null) {
 			vo.setUserNo(authUser.getNo());
 			boardService.replyInsert(vo);
@@ -166,6 +182,8 @@ public class BoardController {
 
 		return "redirect:/board";
 	}
+	
+
 	
 //	@RequestMapping("/form")
 //	public String form() {
