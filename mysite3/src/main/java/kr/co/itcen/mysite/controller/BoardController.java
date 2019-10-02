@@ -49,7 +49,7 @@ public class BoardController {
 	
 		String url = boardService.restore(multipartFile);
 		model.addAttribute("url",url);	
-		
+		System.out.println("3242"+url);
 		return "board/write" ;
 	}
 	

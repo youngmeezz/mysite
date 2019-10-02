@@ -15,8 +15,15 @@
 			   		b.status as 'status' 
 				from user u, board b 
 			 where u.no = b.user_no 
+		]]> 
+		<if test=" keyword !='' ">
+		<![CDATA[
 			   and (b.title like concat('%', #{keyword}, '%')
 			   	   or b.contents like concat('%', #{keyword}, '%'))
+			   and b.status = 1	 
+		]]> 
+		</if>
+		<![CDATA[
 			order by b.g_no desc, b.o_no asc
 			limit #{page}, #{listSize}
 			;
@@ -90,8 +97,7 @@
 						1);
 		]]>
 	</insert>
-	
-	
+
 <!-- 조회수 업데이트  -->
 	<update id="hit" parameterType="boardvo">
 		<![CDATA[
@@ -124,7 +130,7 @@
 		]]>
 	</update>
 	
-<!-- 검색됬을때 전체 카운트 -->
+<!-- 검색됬을때 전체 카운트 조회 -->
 	<select id="countSelect" parameterType="string" resultType="int">
 		<![CDATA[
 			select count(*) as 'cnt' 
