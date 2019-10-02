@@ -36,17 +36,15 @@
 							<c:if test="${vo.depth gt 0}">
 								<img src='${pageContext.servletContext.contextPath }/assets/images/reply.png'/>
 							</c:if>
-							
 								<c:choose>
 									<c:when test="${vo.status eq 0}">
 										삭제된 게시물 입니다.
 									</c:when>
 									<c:otherwise>
 									<a href="${pageContext.servletContext.contextPath }/board/view/${vo.no}">${vo.title }</a>
-										
 									</c:otherwise>
 								</c:choose>
-							</a></td>
+							</td>
 						<td>${vo.name }</td>
 						<td>${vo.hit }</td>
 						<td>${vo.registerDate }</td>
@@ -55,13 +53,14 @@
 					</c:forEach>
 				</table>
 				
+				
 				<!-- pager 추가 -->
 				<div class="pager">
 					<ul>
 						<c:if test="${pagination.prev }">
 							<li><a
 								href="${pageContext.servletContext.contextPath }/board?keyword=${keyword }&page=${pagination.startPage - 1 }">◀</a>
-								</li>
+							</li>
 						</c:if>
 						<c:forEach begin="${pagination.startPage }"
 							end="${pagination.endPage }" var="pg">

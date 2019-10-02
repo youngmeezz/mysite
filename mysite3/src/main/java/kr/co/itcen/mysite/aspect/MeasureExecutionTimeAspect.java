@@ -32,6 +32,5 @@ public class MeasureExecutionTimeAspect {
 		
 		return result;
 	
-		//joinpoint
 	}
 }

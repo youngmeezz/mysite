@@ -1,16 +1,24 @@
 package kr.co.itcen.mysite.vo;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class BoardVo {
 
 	private Long no;
+	
+	@NotEmpty
 	private String title;
+	
+	@NotEmpty
 	private String contents;
+	
 	private String name;
 	private int hit;
 	private String registerDate;
 	private int groupNumber;
 	private int orderNumber;
 	private int depth;
+
 	private Long userNo;
 	private int status;
 	

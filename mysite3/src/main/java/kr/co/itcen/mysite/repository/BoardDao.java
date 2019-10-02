@@ -57,10 +57,6 @@ public class BoardDao {
 
 	public Boolean update(BoardVo vo){
 		
-//		Map<String,Long> map = new HashMap<String,Long>();
-//		map.put("no", no);
-//		map.put("userNo", userNo);
-		
 		int result = sqlSession.update("board.update",vo);
 		return result == 1;
 	}

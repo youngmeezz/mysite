@@ -17,19 +17,40 @@
 	<aop:aspectj-autoproxy />
 	<!-- validator, conversionService, messageConverter를 자동으로 등록 -->
 	<mvc:annotation-driven>
-		<mvc:message-converters>
-		         <bean class="org.springframework.http.converter.StringHttpMessageConverter">
-				    <property name="supportedMediaTypes">
-				        <list>
-				             <value>text/html; charset=UTF-8</value>
-				        </list>
-				    </property>
-				</bean>
-		</mvc:message-converters>
-	</mvc:annotation-driven>
+ 	
+			<mvc:message-converters>
+			         <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+					    <property name="supportedMediaTypes">
+					        <list>
+					             <value>text/html; charset=UTF-8</value>
+					        </list>
+					    </property>
+					</bean>
+			</mvc:message-converters>
+		</mvc:annotation-driven>
 
 	<!-- 서블릿 컨테이너의 디폴트 서블릿 위임 핸들러 -->
 	<mvc:default-servlet-handler/>
+	
+	<!--  Interceptor -->
+	<mvc:interceptors>
+<!-- 		<mvc:interceptor>
+			<mvc:mapping path="/user/**" />
+			<bean class="kr.co.itcen.mysite.interceptor.MyInterceptor02"/>
+		</mvc:interceptor> 
+-->
+		
+		<mvc:interceptor>
+			<mvc:mapping path="/user/auth" />
+			<bean class="kr.co.itcen.mysite.security.LoginInterceptor"/>
+		</mvc:interceptor>
+		
+		<mvc:interceptor>
+			<mvc:mapping path="/user/logout" />
+			<bean class="kr.co.itcen.mysite.security.LogoutInterceptor"/>
+		</mvc:interceptor>
+		
+	</mvc:interceptors>
 	
 	<!--   ViewResolver 설정 -->
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -48,7 +69,18 @@
 	   </property>
 	</bean>
 	
+		
+		 <!--  MessageSource -->
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+	   <property name="basenames">
+	      <list>
+			<value>messages/messages_ko</value>
+	      </list>
+	   </property>
+	</bean>
+		
 	
+	<mvc:resources location="file:/uploads/" mapping="/images/**"/> 
 	<context:annotation-config />
 	<context:component-scan base-package="kr.co.itcen.mysite.controller, kr.co.itcen.mysite.exception" />
 

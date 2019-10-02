@@ -3,15 +3,18 @@ package kr.co.itcen.mysite.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.itcen.mysite.service.BoardService;
 import kr.co.itcen.mysite.vo.BoardVo;
@@ -43,24 +46,43 @@ public class BoardController {
 	
 	//게시판 글 삽입할 글쓰기 페이지 가져오기
 	@RequestMapping(value = "/write", method = RequestMethod.GET)
-	public String insertForm() {
+	public String insertForm(@RequestParam(value = "file", required = false)MultipartFile multipartFile,Model model) {
+	
+		String url = boardService.restore(multipartFile);
+		model.addAttribute("url",url);	
+		
 		return "board/write" ;
 	}
 	
+	
+//	@RequestMapping(value = "/write", method = RequestMethod.POST)
+//	public String insert(@ModelAttribute BoardVo vo,HttpSession session) {
+//		
+//		
+//		UserVo authUser = (UserVo) session.getAttribute("authUser");
+//		
+//		if (authUser != null) {
+//			vo.setUserNo(authUser.getNo());
+//			boardService.insert(vo);
+//			
+//		}
+//		
+//		return "redirect:/board" ;
+//	}
+	
 	//게시판 글  등록 후 -> 게시판 페이지 가져오기(redirect)
 	@RequestMapping(value = "/write", method = RequestMethod.POST)
-	public String insert(@ModelAttribute BoardVo vo,HttpSession session) {
-	
-		UserVo authUser = (UserVo) session.getAttribute("authUser");
+	public String insert(@ModelAttribute("boardVo") @Valid BoardVo vo,BindingResult result, Model model) {
 		
-		if (authUser != null) {
-			vo.setUserNo(authUser.getNo());
+		
+		if( result.hasErrors() ) {
+			model.addAllAttributes(result.getModel());
 			boardService.insert(vo);
-			
 		}
 		
 		return "redirect:/board" ;
 	}
+	
 	
 	
 	//게시판 글 쓴 view 페이지 가져오기
@@ -144,4 +166,24 @@ public class BoardController {
 
 		return "redirect:/board";
 	}
+	
+//	@RequestMapping("/form")
+//	public String form() {
+//		return "form";
+//	}
+	
+	//글 작성하기에 파일업로드 포함시키기
+//	@RequestMapping("/upload")
+//	public String upload(
+//			@RequestParam(value = "email", required = true, defaultValue= "")String email,
+//			@RequestParam(value = "file1", required = false)MultipartFile multipartFile,
+//			Model model) {
+//			
+//			//System.out.println("email:" + email);
+//			
+//			String url = boardService.restore(multipartFile);
+//			model.addAttribute("url",url);
+//			return "result";
+//	}
+	
 }

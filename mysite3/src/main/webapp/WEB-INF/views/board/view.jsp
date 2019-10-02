@@ -40,6 +40,9 @@
 				</c:if>
 				<c:if test="${!empty sessionScope.authUser }">	
 					<a href="${pageContext.servletContext.contextPath }/board/writeform/${vo.no}">답글달기</a>	
+					<div class="result-images">
+						<img src="${pageContext.request.contextPath }/${url }" style="width:150px"><br>
+					</div>
 				</c:if>
 				</div>
 			</div>
