@@ -55,20 +55,6 @@ public class BoardController {
 	}
 	
 	
-//	@RequestMapping(value = "/write", method = RequestMethod.POST)
-//	public String insert(@ModelAttribute BoardVo vo,HttpSession session) {
-//		
-//		
-//		UserVo authUser = (UserVo) session.getAttribute("authUser");
-//		
-//		if (authUser != null) {
-//			vo.setUserNo(authUser.getNo());
-//			boardService.insert(vo);
-//			
-//		}
-//		
-//		return "redirect:/board" ;
-//	}
 	
 	//게시판 글  등록 후 -> 게시판 페이지 가져오기(redirect)
 	@RequestMapping(value = "/write", method = RequestMethod.POST)
@@ -109,7 +95,7 @@ public class BoardController {
 	
 	//게시판 수정할 폼 페이지 가져오기
 	@RequestMapping(value = "/modifyform/{no}", method = RequestMethod.GET)
-	public String updateForm(@PathVariable("no") Long no, Model model) {
+	public String updateForm(@PathVariable("no") Long no, Model model, @ModelAttribute BoardVo boardVo) {
 		
 		BoardVo vo = boardService.get(no,0L);
 		model.addAttribute("vo",vo);
@@ -121,11 +107,15 @@ public class BoardController {
 	//게시판 수정한 글 등록하기  -> 게시판 페이지 가져오기(redirect) 
 	//POST -> 데이터가 뒤에 붙지 않고 / GET -> 데이터파라미터 받는것
 	@RequestMapping(value="/modifyform", method = RequestMethod.POST)
-	public String update(@ModelAttribute BoardVo vo, HttpSession session) {
+	public String update(@ModelAttribute("boardVo") @Valid BoardVo vo,BindingResult result, Model model,HttpSession session) {
 		
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
 
-
+		if( result.hasErrors() ) {
+			model.addAllAttributes(result.getModel());
+			return "board/modify";
+		}
+		
 		if (authUser != null) {
 			vo.setUserNo(authUser.getNo());
 			boardService.update(vo);
