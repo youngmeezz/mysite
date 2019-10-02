@@ -49,7 +49,6 @@ public class BoardController {
 	
 		String url = boardService.restore(multipartFile);
 		model.addAttribute("url",url);	
-		System.out.println("3242"+url);
 		return "board/write" ;
 	}
 	
@@ -80,7 +79,7 @@ public class BoardController {
 	
 	//게시판 글 쓴 view 페이지 가져오기
 	@RequestMapping(value = "/view/{no}", method = RequestMethod.GET)
-	public String viewForm(@PathVariable("no") Long no, Long userNo,Model model) {
+	public String viewForm(@PathVariable("no") Long no, Long userNo,Model model, @ModelAttribute BoardVo boardVo) {
 		
 		BoardVo vo = boardService.get(no,userNo);
 		model.addAttribute("vo",vo);
@@ -93,7 +92,7 @@ public class BoardController {
 	
 	
 	//게시판 수정할 폼 페이지 가져오기 (validation)
-	@RequestMapping(value = "/modifyform/{no}", method = RequestMethod.GET)
+	@RequestMapping(value = "/modify/{no}", method = RequestMethod.GET)
 	public String updateForm(@PathVariable("no") Long no, Model model, @ModelAttribute BoardVo boardVo) {
 		
 		BoardVo vo = boardService.get(no,0L);
@@ -105,7 +104,7 @@ public class BoardController {
 	
 	//게시판 수정한 글 등록하기  -> 게시판 페이지 가져오기(redirect) (validation)
 	//POST -> 데이터가 뒤에 붙지 않고 / GET -> 데이터파라미터 받는것
-	@RequestMapping(value="/modifyform", method = RequestMethod.POST)
+	@RequestMapping(value="/modify", method = RequestMethod.POST)
 	public String update(@ModelAttribute("boardVo") @Valid BoardVo vo,BindingResult result, Model model,HttpSession session) {
 		
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
@@ -125,11 +124,15 @@ public class BoardController {
 		
 	
 	//게시판 삭제 하기  -> 게시판 페이지 가져오기(redirect)
-	@RequestMapping(value="/deleteform/{no}", method = RequestMethod.GET)
-	public String delete(@PathVariable("no") Long no,
-			@ModelAttribute BoardVo vo, HttpSession session) {
+	@RequestMapping(value="/delete/{no}", method = RequestMethod.GET)
+	public String delete(@ModelAttribute("boardVo") @Valid BoardVo vo,BindingResult result, Model model,HttpSession session) {
 		
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		
+		if( result.hasErrors() ) {
+			model.addAllAttributes(result.getModel());
+			return "redirect:/board";
+		}
 		
 		//삭제된 게시물 검색 안되게 하기
 		if (authUser != null) {
@@ -141,7 +144,7 @@ public class BoardController {
 	}
 	
 	//게시판 답글 작성 할 폼 가져오기(validation)
-	@RequestMapping(value = "/writeform/{no}", method = RequestMethod.GET)
+	@RequestMapping(value = "/write/{no}", method = RequestMethod.GET)
 	public String replyForm(@PathVariable("no") Long no, Model model, @ModelAttribute BoardVo boardVo) {
 		
 		BoardVo vo = boardService.get(no,0L);

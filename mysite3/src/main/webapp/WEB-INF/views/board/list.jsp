@@ -2,6 +2,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -16,10 +18,15 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp"/>
 		<div id="content">
 			<div id="board">
-				<form id="search_form" action="${pageContext.servletContext.contextPath }/board/list" method="post">
+				<form:form 
+				id="search_form" 
+				action="${pageContext.servletContext.contextPath }/board/list" 
+				method="post">
+<%-- 					<label class="block-label" for="name">이름</label>
+					<form:input path="name"/> --%>
 					<input type="text" id="kwd" name="keyword" value="">
 					<input type="submit" value="찾기">
-				</form>
+				</form:form>
 				<table class="tbl-ex">
 					<tr>
 						<th>번호</th>
@@ -48,7 +55,7 @@
 						<td>${vo.name }</td>
 						<td>${vo.hit }</td>
 						<td>${vo.registerDate }</td>
-						<td><a href="${pageContext.servletContext.contextPath }/board/deleteform/${vo.no}" class="del">삭제</a></td>
+						<td><a href="${pageContext.servletContext.contextPath }/board/delete/${vo.no}" class="del">삭제</a></td>
 					</tr>
 					</c:forEach>
 				</table>

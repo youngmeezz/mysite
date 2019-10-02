@@ -20,7 +20,7 @@
 				<form:form 
 					class="board-form" 
 					method="post" 
-					action="${pageContext.servletContext.contextPath }/board/modifyform">
+					action="${pageContext.servletContext.contextPath }/board/modify">
 					<input type="hidden" name="no" value="${vo.no }"/>
 					<table class="tbl-ex">
 						<tr>

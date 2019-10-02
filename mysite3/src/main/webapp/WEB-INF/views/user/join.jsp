@@ -66,9 +66,9 @@ $(function(){
 		<div id="content">
 			<div id="user">
 			<form:form
-				 modelAttribute="userVo"
-				 id="join-form" 
-				 name="joinForm"
+				  modelAttribute="userVo"
+				  id="join-form" 
+				  name="joinForm"
 				  method="post" 
 				  action="${pageContext.servletContext.contextPath }/user/join">		
 			

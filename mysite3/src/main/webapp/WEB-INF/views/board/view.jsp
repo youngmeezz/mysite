@@ -1,6 +1,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -35,11 +37,11 @@
 				<div class="bottom">
 					<a href="${pageContext.servletContext.contextPath }/board">글목록</a>
 				<c:if test="${sessionScope.authUser.no eq vo.userNo }">	
-					<a href="${pageContext.servletContext.contextPath }/board/modifyform/${vo.no}">글수정</a>	
-					<a href="${pageContext.servletContext.contextPath }/board/deleteform/${vo.no}">글삭제</a>	
+					<a href="${pageContext.servletContext.contextPath }/board/modify/${vo.no}">글수정</a>	
+					<a href="${pageContext.servletContext.contextPath }/board/delete/${vo.no}">글삭제</a>	
 				</c:if>
 				<c:if test="${!empty sessionScope.authUser }">	
-					<a href="${pageContext.servletContext.contextPath }/board/writeform/${vo.no}">답글달기</a>	
+					<a href="${pageContext.servletContext.contextPath }/board/write/${vo.no}">답글달기</a>	
 					<div class="result-images">
 						<img src="${pageContext.request.contextPath }/${url }" style="width:150px"><br>
 					</div>
