@@ -116,22 +116,23 @@ public class UserController {
 	//회원정보 수정한 폼 보여주기 GET(READ)
 	@Auth("USER")
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
-	public String update(@AuthUser UserVo authUser,Model model) {
+	public String update(@ModelAttribute @AuthUser UserVo authUser,Model model) {
 		
 //		UserVo authUser = (UserVo) session.getAttribute("authUser");
-		Long no = authUser.getNo();
-		
-		System.out.println(authUser);
-		
-		
-		UserVo userVo = userService.getUserByNo(no);
-		model.addAttribute("userVo",userVo);
+//		Long no = authUser.getNo();
+//		
+//		System.out.println(authUser);
+//		
+//		
+//		UserVo userVo = userService.getUserByNo(no);
+//		model.addAttribute("userVo",userVo);
 //		if (authUser == null) {
 //			return "redirect:/";
 //		}
 //		
 //		UserVo vo = userService.getUserByNo(authUser.getNo());
 //		model.addAttribute("userInfo", vo);
+		authUser = userService.getUserByNo(authUser.getNo());
 		return "user/update";
 	}
 
