@@ -11,9 +11,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import kr.co.itcen.mysite.security.Auth;
+import kr.co.itcen.mysite.security.Auth.Role;
+import kr.co.itcen.mysite.security.AuthUser;
 import kr.co.itcen.mysite.service.UserService;
 import kr.co.itcen.mysite.vo.UserVo;
 
+@Auth
 @Controller
 @RequestMapping("/user")
 public class UserController {
@@ -110,16 +114,24 @@ public class UserController {
 
 	
 	//회원정보 수정한 폼 보여주기 GET(READ)
+	@Auth("USER")
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
-	public String update(Model model, HttpSession session) {
-		UserVo authUser = (UserVo) session.getAttribute("authUser");
+	public String update(@AuthUser UserVo authUser,Model model) {
 		
-		if (authUser == null) {
-			return "redirect:/";
-		}
+//		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		Long no = authUser.getNo();
 		
-		UserVo vo = userService.getUserByNo(authUser.getNo());
-		model.addAttribute("userInfo", vo);
+		System.out.println(authUser);
+		
+		
+		UserVo userVo = userService.getUserByNo(no);
+		model.addAttribute("userVo",userVo);
+//		if (authUser == null) {
+//			return "redirect:/";
+//		}
+//		
+//		UserVo vo = userService.getUserByNo(authUser.getNo());
+//		model.addAttribute("userInfo", vo);
 		return "user/update";
 	}
 

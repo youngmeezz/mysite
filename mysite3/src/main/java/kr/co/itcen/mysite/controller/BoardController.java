@@ -58,6 +58,7 @@ public class BoardController {
 	@RequestMapping(value = "/write", method = RequestMethod.POST)
 	public String insert(@ModelAttribute("boardVo") @Valid BoardVo vo,BindingResult result, Model model,HttpSession session) {
 		
+		
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
 	
 		
