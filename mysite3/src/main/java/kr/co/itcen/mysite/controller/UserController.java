@@ -17,7 +17,7 @@ import kr.co.itcen.mysite.security.AuthUser;
 import kr.co.itcen.mysite.service.UserService;
 import kr.co.itcen.mysite.vo.UserVo;
 
-@Auth
+
 @Controller
 @RequestMapping("/user")
 public class UserController {
@@ -116,7 +116,7 @@ public class UserController {
 	//회원정보 수정한 폼 보여주기 GET(READ)
 	@Auth("USER")
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
-	public String update(@ModelAttribute @AuthUser UserVo authUser,Model model) {
+	public String update(@AuthUser UserVo authUser,Model model) {
 		
 //		UserVo authUser = (UserVo) session.getAttribute("authUser");
 //		Long no = authUser.getNo();
@@ -130,9 +130,9 @@ public class UserController {
 //			return "redirect:/";
 //		}
 //		
-//		UserVo vo = userService.getUserByNo(authUser.getNo());
-//		model.addAttribute("userInfo", vo);
 		authUser = userService.getUserByNo(authUser.getNo());
+		model.addAttribute("userInfo", authUser);
+
 		return "user/update";
 	}
 
