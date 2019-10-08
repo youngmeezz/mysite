@@ -9,7 +9,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Auth {
 	public enum Role{USER, ADMIN};
-	
 	//public Role role() default Role.USER; db랑 session에 role이 있어야 하마.
 	public String value() default "USER";
 	

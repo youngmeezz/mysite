@@ -26,15 +26,18 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		//2. casting
 		HandlerMethod handlerMethod = (HandlerMethod)handler;
 		
-		//3. @Auth 받아오기
+		//3. @Auth 받아오기 UserController에 있는 @Auth("USER") 받아옴
 		Auth auth = handlerMethod.getMethodAnnotation(Auth.class);
 		//4. @Auth가 없으면 class type에 있으므로..
 		if(auth == null) {
 			//과제 : class type에서 @Auth가 있는지를 확인해 봐야 한다.
 			//5. @Auth가 없으면			
+			//AdminController에 있는 @Auth("ADMIN")가져옴
 			auth = handlerMethod.getBeanType().getAnnotation(Auth.class);
 			
 			if(auth == null) {
+				
+				//UserController로 접근 가능 HandlerInterceptor에서 막히지 않고 
 				return true;
 			}
 		}
@@ -59,15 +62,6 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		//10. Method의 @Auth의 Role이 "ADMIN"인 경우
 		// 과제
 		if("ADMIN".equals(role)) {
-			//요청받은 role @Auth랑  role ADMIN이랑 같지않으면 홈으로 돌아가기 session이 null이어도 홈으로 돌아가기
-//			if (session == null || session.getAttribute("authUser") != session.getAttribute("ADMIN")) {
-//				response.sendRedirect(request.getContextPath() + "/");
-//				return false;
-//			}
-//			if ( session == null || session.getAttribute("authUser") != Role.ADMIN) {
-//				response.sendRedirect(request.getContextPath() + "/");
-//				return false;
-//			}
 			
 			if (!"ADMIN".equals(authUser.getRole())) {
 				response.sendRedirect(request.getContextPath() + "/");
