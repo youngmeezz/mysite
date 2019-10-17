@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="board">
+
+<!-- 전체 조회 -->
+	<select id="getList" parameterType="map" resultType="boardvo">
+		<![CDATA[
+			 select b.no as 'no',
+			   		b.title as 'title',
+			  	 	u.name as 'name',
+			   		b.hit as 'hit',
+			   		b.reg_date as 'registerDate',
+			   		b.depth as 'depth',
+			   		b.status as 'status' 
+				from user u, board b 
+			 where u.no = b.user_no 
+		]]> 
+		<if test=" keyword !='' ">
+		<![CDATA[
+			   and (b.title like concat('%', #{keyword}, '%')
+			   	   or b.contents like concat('%', #{keyword}, '%'))
+			   and b.status = 1	 
+		]]> 
+		</if>
+		<![CDATA[
+			order by b.g_no desc, b.o_no asc
+			limit #{page}, #{listSize}
+			;
+		]]>
+	</select>
+
+<!-- view 조회 -->
+	<select id="getByNo" parameterType="boardvo" resultType="boardvo">
+			<![CDATA[
+				select  title as title,
+						contents as contents,
+						no as no,
+						user_no as userNo,
+						g_no as groupNumber,
+						o_no as orderNumber,
+						depth as depth 
+					from board 
+				where no = #{no}
+			]]>
+	</select>
+	
+	
+<!-- 글 삽입  -->
+	<insert id="insert" parameterType="boardvo">
+		<![CDATA[
+		insert 
+			into board
+				 values(null,
+				 		#{title},
+				 		#{contents},
+				 		0,
+				 		now(),
+				 		(select ifnull(max(g_no) + 1, 1) from board as b),
+				 		#{orderNumber},
+				 		#{depth},
+				 		#{userNo},
+				 		1);
+		]]>
+		<selectKey keyProperty="no" resultType="long" order="AFTER">
+			<![CDATA[
+				select last_insert_id()
+			]]>
+		</selectKey>
+	</insert>
+	
+	
+<!-- 답글 삽입전에 o_no업데이트 해주기 어떻게 함?-->	
+	<update id="replyUpdate" parameterType="boardvo">
+		<![CDATA[
+		update board  
+			set o_no = o_no+1
+		where g_no = #{groupNumber} 
+		and o_no >= #{orderNumber}
+		]]>
+	</update>
+	
+<!-- 답글 삽입  (no,title,contents,hit,reg_date,g_no,o_no,depth,user_no,status)-->
+	<insert id="replyInsert" parameterType="boardvo">
+		<![CDATA[
+			insert 
+			into board
+				values(	null,
+						#{title},
+						#{contents},
+						0,
+						now(),
+						#{groupNumber},
+						#{orderNumber},
+						#{depth},
+						#{userNo},
+						1);
+		]]>
+	</insert>
+
+<!-- 조회수 업데이트  -->
+	<update id="hit" parameterType="boardvo">
+		<![CDATA[
+			update board 
+				set hit = hit+1 
+			where no = #{no}
+		]]>
+	</update>
+	
+	
+<!-- 글 수정  -->
+	<update id="update" parameterType="boardvo">
+		<![CDATA[
+			update board 
+				set title = #{title}, 
+					contents = #{contents} 
+			where no = #{no } 
+			and user_no = #{userNo};
+		]]>
+	</update>
+
+
+<!-- 글 삭제  -->
+	<update id="delete" parameterType="boardvo">
+		<![CDATA[
+			update board 
+				set status=0 
+			where no= #{no}
+			and	  user_no = #{userNo};
+		]]>
+	</update>
+	
+<!-- 검색됬을때 전체 카운트 조회 -->
+	<select id="countSelect" parameterType="string" resultType="int">
+		<![CDATA[
+			select count(*) as 'cnt' 
+				from board
+			where title like concat('%', #{keyword}, '%')
+			   	   or contents like concat('%', #{keyword}, '%');
+		]]>
+	</select>
+</mapper>
+
