@@ -1,0 +1,120 @@
+mysite4 - java config version
+
+1. 메이븐 프로젝트 mysite4 ( mysite Module)
+2. POM 설정
+3. web.xml 
+
+4. AppConfig 설정
+   - DBConfig
+   - MyBatis
+
+5. WebConfig 설정
+   - MVCConfig(ViewResolver, Message Converter, Default Handler,  .... )
+   - SecurityConfig(Interceptor, Argument Resolver)
+   - MessageConfig
+   - FileuploadConfig
+
+6. GlobalExceptionHandler
+7. slf4j(LogBack)
+
+kr.co.itcen.mysite.config.app
+kr.co.itcen.config.app
+kr.co.itcen.config.app.properties
+kr.co.itcen.mysite.app.mybatis
+kr.co.itcen.mysite.config.web.messages
+
+xml은 구조가 있긴한데 복잡
+property는 구조가 없고
+-> 둘의 장점만 모은게 yml
+
+kr.co.itcen.mysite.app.mybatis.mappers
+
+mysite4(Project Root)
+ |-------- /WEB-INF
+ 	    |-------- classes [src/main/java, src/main/resources]
+ 		      |
+		      |----- kr
+			  |--co
+			      |--itcen
+				|--mysite
+				|     |---- config
+ 					  |------ AppConfig.class
+					  |------ WebConfig.class
+				|     	  |------ app
+				     	     	|--- mybatis
+					             	 |--- configuration.xml
+						  	 |--- mapper
+				  				|---- user.xml
+								|---- board.xml
+				|	 |------ web
+					 	|--- messages
+						          |--- messages_ko
+						|         |--- messages_en
+						|--- properties
+							| -- multipart.properties
+				|----config
+					|---app
+					     |--- DBConfig.class
+					     |--- MyBatisConfig.class
+					     |--- properties
+					              |---- jdbc.properties(다시 컴파일과 로딩이 필요 없음)
+					|---web
+				|	      |--- MVCConfig.class
+					      |--- SecurityConfig.class
+					      |--- MessageConfig.class
+					      |--- FileuploadConfig.class
+				      |--- properties
+
+
+과제
+1. jblog 멀티프로젝트
+     |----- jblog3 (xml)
+2.   |----- jblog4 (java config)
+3.   |----- jblog5
+
+mysite
+|------mysite2 (Servlet/JSP, Model2, MVC)
+|------mysite3 (Spring MVC, XML Config)
+|------mysite4 (Spring MVC, Java Config1), web.xml
+|------mysite5 (Spring MVC, Java Config2), ServletContainerInitializer
+|------mysite6 (Spring Boot, Java Config, yaml properties)
+
+
+ hellospring 
+   |-- Web  Application Context 
+      (spring-servlet.xml <- ClassPathWebXmlApplicationContext)
+
+ hellospring2 
+   |-- Web  Application Context 
+      (WebConfig.java <- AnnotationConfigWebApplicationContext)
+ 
+ hellospring3
+ |-- AbstractAnnotationConfigDispatcherServletInitializer
+
+
+ mysite config
+   |-- Web  Application Context (dispathcher-servlet.xml -> WebConfig.java)
+   |-- Root Application Context (applicationContext.xml  -> AppConfig.java)
+
+
+ MultiPorject
+
+ mysite
+   |----- mysite2 (Servlet/JSP, Model2, MVC)
+   |----- mysite3 (Spring MVC, XML Config)
+   |----- mysite4 (Spring MVC, Java Config1)
+   |----- mysite5 (Spring MVC, Java Config2)
+   |----- mysite6 (Spring Boot,Java Config, yaml properties)
+
+
+
+
+ jblog3
+ 
+ 1) MultiProject -> jblog
+ 2) jblog4 (Spring MVC, Java Config1)   
+    
+ jblog
+   |---- jblog3 (Spring MVC, XML Config)
+   |---- jblog4 (Spring MVC, Java Config1) ***  
+
