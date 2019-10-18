@@ -118,3 +118,12 @@ mysite
    |---- jblog3 (Spring MVC, XML Config)
    |---- jblog4 (Spring MVC, Java Config1) ***  
 
+
+2019-10-18과제
+1. jblog 멀티프로젝트
+     |----- jblog3 (xml)
+2.   |----- jblog4 (java config)
+3.   |----- jblog5 (WebInitializer)
+4.   |----- jblog6 (Spring Boot)
+
+spring-boot-starter
