@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>mysite</title>
+<title>mysite2</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <link href="${pageContext.servletContext.contextPath }/assets/css/user.css" rel="stylesheet" type="text/css">
 </head>

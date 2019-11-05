@@ -40,6 +40,4 @@ public class EncodingFilter implements Filter {
 			encoding = "utf-8";
 		}
 	}
-
-	
 }

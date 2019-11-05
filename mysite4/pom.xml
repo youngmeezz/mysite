@@ -52,7 +52,6 @@
 			<version>${org.springframework-version}</version>
 		</dependency>
 
-
 		<!-- validation -->
 		<dependency>
 			<groupId>javax.validation</groupId>
